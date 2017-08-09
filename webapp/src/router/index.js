@@ -1,15 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
+import ElementUi from 'element-ui'
+
+import login from '../module/login/login.vue'
+import 'element-ui/lib/theme-default/index.css'
 
 Vue.use(Router)
+Vue.use(ElementUi)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello
+      component: login
     }
-  ]
+  ],
+  mode: 'history'
 })
+
+export default router
