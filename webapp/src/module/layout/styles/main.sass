@@ -1,0 +1,28 @@
+@import "../../../assets/styles/constants"
+.layout
+  width: 100%
+  height: 100%
+  background: $color-background-system
+  display: flex
+  flex-direction: row
+  .left
+    width: 185px
+    height: 100%
+    flex: none
+    display: flex
+    flex-direction: column
+    .logo
+      background: #324157
+      height: 45px
+      line-height: 45px
+      padding-left: 20px
+      color: $color-white
+      font-size: $size-font-title-lagre
+      flex: none
+      img
+        margin-top: 5px
+    .el-menu
+      flex: 1
+  .center
+    flex: 1
+    height: 100%

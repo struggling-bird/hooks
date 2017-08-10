@@ -1,21 +1,48 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import ElementUi from 'element-ui'
 
 import login from '../module/login/login.vue'
-import 'element-ui/lib/theme-default/index.css'
+import layout from '../module/layout/main.vue'
+import hookList from '../module/hookList/main.vue'
+import createHook from '../module/hook/create.vue'
+import history from '../module/history/list.vue'
 
 Vue.use(Router)
-Vue.use(ElementUi)
 
 const router = new Router({
   routes: [
     {
       path: '/',
+      component: layout,
+      children: [
+        {
+          path: 'hook/list',
+          name: 'hookList',
+          component: hookList
+        },
+        {
+          path: 'hook/create',
+          name: 'createHook',
+          component: createHook
+        },
+        {
+          path: 'history',
+          name: 'history',
+          component: history
+        }
+      ]
+    },
+    {
+      path: '/login',
       component: login
     }
   ],
   mode: 'history'
+})
+
+router.beforeEach((to, from, next) => {
+  // todo 判断用户身份，未登录的话，跳转到登录页面
+  next()
 })
 
 export default router
