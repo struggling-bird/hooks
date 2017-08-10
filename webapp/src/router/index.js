@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import Router from 'vue-router'
 
 import login from '../module/login/login.vue'
@@ -6,8 +5,6 @@ import layout from '../module/layout/main.vue'
 import hookList from '../module/hookList/main.vue'
 import createHook from '../module/hook/create.vue'
 import history from '../module/history/list.vue'
-
-Vue.use(Router)
 
 const router = new Router({
   routes: [

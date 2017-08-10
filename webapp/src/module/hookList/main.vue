@@ -1,8 +1,7 @@
 <template>
   <div class="hook-list">
     <div class="top-panel">
-      <el-button type="primary"><i class="el-icon-plus el-icon--left"></i>创建</el-button>
-
+      <el-button type="primary" @click="clickCreate"><i class="el-icon-plus el-icon--left"></i>创建</el-button>
       <el-table
         :data="tableData"
         border
@@ -116,11 +115,16 @@
       }
     },
     methods: {
-      handleEdit: (index, row) => {
+      handleEdit (index, row) {
         console.log(index, row)
       },
-      handleDelete: (index, row) => {
+      handleDelete (index, row) {
         console.log(index, row)
+      },
+      clickCreate () {
+        this.$router.push({
+          name: 'createHook'
+        })
       }
     }
   }
