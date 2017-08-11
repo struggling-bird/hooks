@@ -21,9 +21,15 @@
       <el-card class="right">
         <div slot="header" class="header">目标命令栏</div>
         <div class="result-panel">
-          <el-tag>cd /var/html/webapp <i class="el-icon-document"></i> <i class="el-icon-delete"></i></el-tag><br>
-          <el-tag>cnpm install <i class="el-icon-document"></i> <i class="el-icon-delete"></i></el-tag>
+          <el-tag v-for="(item, index) in results">
+            <el-tooltip :content="item" placement="left">
+              <label>{{item}}</label>
+            </el-tooltip>
+            <i class="el-icon-document"></i>
+            <i class="el-icon-delete"></i>
+          </el-tag>
         </div>
+        <el-button class="btn-default" type="primary">生成默认命令集</el-button>
       </el-card>
     </div>
 
@@ -36,7 +42,11 @@
     name: 'create',
     data () {
       return {
-        msg: 'create hook'
+        results: [
+          'cd /var/html/webapp',
+          'git pull',
+          'exit'
+        ]
       }
     },
     methods: {

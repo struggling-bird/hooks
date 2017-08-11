@@ -15,23 +15,51 @@
     display: flex
     flex-direction: row
     .left,.right
-      &>.el-card__header
+      flex: 1
+      display: flex
+      flex-direction: column
+      .el-card__header
+        flex: none
         background: $color-brand-black
         color: $color-white
+      .el-card__body
+        flex: 1
+        overflow: hidden
     .left
       flex: 2
-    .right
-      flex: 1
-    .left
       margin-right: 10px
-    .result-panel .el-tag
-      margin-bottom: 5px
-      i
-        display: none
-      &:hover
-        cursor: pointer
-    .result-panel .el-tag:hover i
-      display: inline-block
-
+      .terminal-panel
+        display: block
+        height: 100%
+        overflow: auto
+    .right
+      position: relative
+      .el-card__body
+        padding-bottom: 50px
+        .result-panel
+          height: 100%
+          overflow: auto
+          .el-tag
+            margin-bottom: 5px
+            display: flex
+            flex-direction: row
+            label
+              flex: 1
+              overflow: hidden
+              text-overflow: ellipsis
+              padding-right: 5px
+            i
+              display: none
+              flex: none
+              margin-top: 5px
+              margin-right: 5px
+            &:hover
+              cursor: pointer
+        .result-panel .el-tag:hover i
+          display: inline-block
+        .btn-default
+          position: absolute
+          bottom: 5px
+          left: 20px
   .btn-save
     flex: none
