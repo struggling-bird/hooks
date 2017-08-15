@@ -7,11 +7,11 @@
         <div slot="header" class="header">远程终端</div>
         <code class="terminal-panel" @click="focusToInput" ref="terminalPanel">
           <ul v-for="(item, index) in inputHistory">
-            <li>➜{{item.order}}</li>
+            <li><i class="arrow">➜</i>{{item.order}}</li>
             <li v-for="(res, i) in response(item.response)" v-html="res"></li>
           </ul>
           <div class="input">
-            <label class="pwd">➜{{getCwd()}}</label>
+            <label class="pwd"><i class="arrow">➜</i>{{getCwd()}}</label>
             <input
               type="text" autofocus
               ref="terminalInput"
@@ -62,13 +62,11 @@
     mounted () {
       const context = this
       socket = io('/')
-      socket.on('connect', () => {
-        socket.on('terminal', (data) => {
-          context.inputHistory.push(data)
-          context.cwd = data.cwd
-          setTimeout(() => {
-            context.$refs.terminalPanel.scrollTop = 999999
-          })
+      socket.on('terminal', (data) => {
+        context.inputHistory.push(data)
+        context.cwd = data.cwd
+        setTimeout(() => {
+          context.$refs.terminalPanel.scrollTop = 999999
         })
       })
     },
