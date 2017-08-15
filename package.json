@@ -16,6 +16,7 @@
     "serve-favicon": "~2.3.2"
   },
   "devDependencies": {
-    "opn": "^5.1.0"
+    "opn": "^5.1.0",
+    "socket.io": "^2.0.3"
   }
 }
