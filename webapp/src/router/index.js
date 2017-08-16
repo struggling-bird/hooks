@@ -11,6 +11,7 @@ const router = new Router({
     {
       path: '/',
       component: layout,
+      redirect: {name: 'hookList'},
       children: [
         {
           path: 'hook/list',
@@ -31,15 +32,11 @@ const router = new Router({
     },
     {
       path: '/login',
+      name: 'login',
       component: login
     }
   ],
   mode: 'history'
-})
-
-router.beforeEach((to, from, next) => {
-  // todo 判断用户身份，未登录的话，跳转到登录页面
-  next()
 })
 
 export default router

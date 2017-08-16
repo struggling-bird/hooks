@@ -8,6 +8,7 @@
           placeholder="用户名或邮箱"
           :autofocus="true"
           auto-complete="off"
+          v-model="user.name"
         ></el-input>
       </div>
       <div class="item">
@@ -17,9 +18,10 @@
           placeholder="密码"
           type="password"
           auto-complete="off"
+          v-model="user.password"
         ></el-input>
       </div>
-      <el-button type="primary">登录</el-button>
+      <el-button type="primary" @click="login">登录</el-button>
       <el-checkbox>记住密码</el-checkbox>
     </div>
   </div>
@@ -30,7 +32,23 @@
     name: 'login',
     data () {
       return {
-        msg: 'login'
+        user: {
+          name: '',
+          password: ''
+        }
+      }
+    },
+    methods: {
+      login () {
+        const context = this
+        this.$store.dispatch('login', this.user).then(() => {
+          context.$router.replace({name: 'hookList'})
+        }).catch(() => {
+          context.$message({
+            message: '用户名或密码错误',
+            type: 'error'
+          })
+        })
       }
     }
   }
