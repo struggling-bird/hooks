@@ -1,4 +1,5 @@
 var express = require('express');
+var os = require('os')
 var router = express.Router();
 var constants = require('./constants')
 var userService = require('../service/user')
@@ -8,6 +9,7 @@ router.post('/login', function(req, res, next) {
     name: req.body.name,
     password: req.body.password
   }).then((user) => {
+    user.address = os.networkInterfaces().en0[1].address
     req.session.user = user
     res.json({
       status: constants.resCode.SUCCESS,

@@ -6,7 +6,8 @@
  */
 export default {
   hook: {
-    create: 'createHook'
+    create: 'createHook',
+    query: 'queryHooks'
   },
   user: {
     getUser: 'getUser',

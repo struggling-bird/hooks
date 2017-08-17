@@ -17,5 +17,8 @@ module.exports = {
         reject()
       })
     })
+  },
+  query () {
+    return hookDao.query()
   }
 }

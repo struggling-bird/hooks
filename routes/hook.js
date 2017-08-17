@@ -34,7 +34,17 @@ router.post('/create', function (req, res, next) {
  * 查询hook配置
  */
 router.post('/query', function (req, res, next) {
-
+  hookService.query().then(results => {
+    res.json({
+      status: constants.resCode.SUCCESS,
+      data: results
+    })
+  }).catch(() => {
+    res.json({
+      status: constants.resCode.ERROR,
+      message: '查询hook列表信息失败'
+    })
+  })
 })
 /**
  * 删除hook配置

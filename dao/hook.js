@@ -34,5 +34,9 @@ module.exports = {
         reject()
       })
     })
+  },
+  query () {
+    const sql = 'select * from hook order by create_time desc'
+    return db.query(sql)
   }
 }

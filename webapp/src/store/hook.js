@@ -37,6 +37,20 @@ export default {
           reject()
         })
       })
+    },
+
+    [actions.hook.query] (context) {
+      return new Promise((resolve, reject) => {
+        ajax({
+          url: '/hook/query',
+          method: 'post'
+        }).then(res => {
+          context.commit(mutations.hook.updateList, res.data)
+          resolve()
+        }).catch(() => {
+          reject()
+        })
+      })
     }
   }
 }
