@@ -6,7 +6,8 @@
  */
 var express = require('express');
 var router = express.Router();
-
+const hookService = require('../service/hook')
+const constants = require('./constants')
 /**
  * 供外部调用的hook接口
  */
@@ -17,7 +18,17 @@ router.get('/:token/:hookId', function (req, res, next) {
  * 创建hook配置
  */
 router.post('/create', function (req, res, next) {
-
+  hookService.add(req.body).then(hook => {
+    res.json({
+      status: constants.resCode.SUCCESS,
+      data: hook
+    })
+  }).catch(() => {
+    res.json({
+      status: constants.resCode.ERROR,
+      message: '创建失败'
+    })
+  })
 })
 /**
  * 查询hook配置

@@ -36,12 +36,14 @@
       </el-card>
     </div>
 
-    <el-button type="primary" class="btn-save">保存</el-button>
+    <el-button type="primary" class="btn-save" @click="onSave">保存</el-button>
   </div>
 </template>
 
 <script>
   import io from 'socket.io-client'
+  import {actions} from '../../store/constants/main'
+
   var socket = null
   export default {
     name: 'create',
@@ -112,6 +114,13 @@
       },
       onClearHistory () {
         this.inputHistory = []
+      },
+      onSave () {
+        this.$store.dispatch(actions.hook.create, {
+          name: 'test',
+          command: JSON.stringify(this.results),
+          description: 'this is test hook'
+        })
       }
     }
   }

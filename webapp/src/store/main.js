@@ -5,7 +5,9 @@
  *
  */
 import user from './user'
+import hook from './hook'
 
 export default {
-  user
+  user,
+  hook
 }

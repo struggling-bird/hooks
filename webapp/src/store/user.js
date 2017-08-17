@@ -6,7 +6,7 @@
  */
 
 import {ajax} from '../utils/main'
-import constants from './constants'
+import {resCode, actions} from './constants/main'
 export default {
   state: {
     current: {
@@ -23,13 +23,13 @@ export default {
     }
   },
   actions: {
-    getUser (context) {
+    [actions.user.getUser] (context) {
       return new Promise((resolve, reject) => {
         ajax({
           url: '/users/getCurrent',
           method: 'post'
         }).then(res => {
-          if (res.status === constants.resCode.SUCCESS) {
+          if (res.status === resCode.SUCCESS) {
             context.commit('setUser', res.data)
             resolve()
           } else {
@@ -40,7 +40,7 @@ export default {
         })
       })
     },
-    login (context, param = {
+    [actions.user.login] (context, param = {
       name: '',
       password: ''
     }) {
@@ -50,7 +50,7 @@ export default {
           method: 'post',
           data: param
         }).then(res => {
-          if (res.status === constants.resCode.SUCCESS) {
+          if (res.status === resCode.SUCCESS) {
             context.commit('setUser', res.data)
             resolve()
           } else {
