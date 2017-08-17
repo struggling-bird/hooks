@@ -9,6 +9,7 @@ var config = require('../config/database')
 var util = require('../utils/util')
 
 function serialization(results) {
+  if (!results.map) return results
   return results.map(item => {
     return util.toCamelObj(item)
   })

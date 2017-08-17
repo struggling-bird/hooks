@@ -6,7 +6,9 @@
  */
 import resCode from './resCode'
 import actions from './actions'
+import mutations from './mutations'
 export {
   resCode,
-  actions
+  actions,
+  mutations
 }

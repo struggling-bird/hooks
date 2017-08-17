@@ -5,15 +5,18 @@
  *
  */
 import {ajax} from '../utils/main'
-import {actions} from './constants/main'
+import {actions, mutations} from './constants/main'
 
 export default {
   state: {
     list: []
   },
   mutations: {
-    updateList (state, list) {
+    [mutations.hook.updateList] (state, list) {
       state.list = list
+    },
+    [mutations.hook.add] (state, hook) {
+      state.list.push(hook)
     }
   },
   actions: {
@@ -28,6 +31,7 @@ export default {
           method: 'post',
           data: hook
         }).then(res => {
+          context.commit(mutations.hook.add, res.data)
           resolve()
         }).catch(() => {
           reject()

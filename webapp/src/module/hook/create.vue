@@ -36,7 +36,22 @@
       </el-card>
     </div>
 
-    <el-button type="primary" class="btn-save" @click="onSave">保存</el-button>
+    <el-button type="primary" class="btn-save" @click="dialogFormVisible = true">保存</el-button>
+
+    <el-dialog title="保存" :visible.sync="dialogFormVisible" size="tiny">
+      <el-form label-width="90px" v-model="form">
+        <el-form-item label="HOOK名称">
+          <el-input v-model="form.name" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="描述">
+          <el-input v-model="form.description" type="textarea" :rows="4"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="onReset">取 消</el-button>
+        <el-button type="primary" @click="onSave">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -49,6 +64,7 @@
     name: 'create',
     data () {
       return {
+        dialogFormVisible: false,
         /**
          * 历史输入及输出信息
          * {type:'', content: ''}
@@ -58,7 +74,11 @@
         cwd: '',
         results: [
 
-        ]
+        ],
+        form: {
+          name: '',
+          description: ''
+        }
       }
     },
     mounted () {
@@ -115,11 +135,23 @@
       onClearHistory () {
         this.inputHistory = []
       },
+      onReset () {
+        this.dialogFormVisible = false
+        this.form.name = ''
+        this.form.description = ''
+      },
       onSave () {
         this.$store.dispatch(actions.hook.create, {
-          name: 'test',
+          name: this.form.name,
           command: JSON.stringify(this.results),
-          description: 'this is test hook'
+          description: this.form.description
+        }).then(() => {
+          this.onReset()
+        }).catch(() => {
+          this.$message({
+            message: '创建失败',
+            type: 'error'
+          })
         })
       }
     }

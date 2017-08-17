@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <div class="left">
-      <div class="logo">
+      <div class="logo" @click="onClickLogo">
         <img src="../../assets/images/logo.png"/>
         HOOKS
       </div>
@@ -23,9 +23,9 @@
 <script>
   export default {
     name: 'main',
-    data () {
-      return {
-        msg: 'main'
+    methods: {
+      onClickLogo () {
+        this.$router.push('/')
       }
     }
   }
