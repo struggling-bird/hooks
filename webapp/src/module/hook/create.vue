@@ -39,18 +39,16 @@
     <el-button type="primary" class="btn-save" @click="dialogFormVisible = true">保存</el-button>
 
     <el-dialog title="保存" :visible.sync="dialogFormVisible" size="tiny">
-      <el-form label-width="90px" v-model="form">
+      <el-form label-width="90px" v-model="form" @submit.prevent="onSave">
         <el-form-item label="HOOK名称">
           <el-input v-model="form.name" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="描述">
           <el-input v-model="form.description" type="textarea" :rows="4"></el-input>
         </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" native-type="submit" @click.prevent="onSave">确 定</el-button>
         <el-button @click="onReset">取 消</el-button>
-        <el-button type="primary" @click="onSave">确 定</el-button>
-      </div>
+      </el-form>
     </el-dialog>
   </div>
 </template>

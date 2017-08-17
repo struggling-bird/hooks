@@ -18,7 +18,7 @@ router.get('/:token/:hookId', function (req, res, next) {
  * 创建hook配置
  */
 router.post('/create', function (req, res, next) {
-  hookService.add(req.body).then(hook => {
+  hookService.add(req.body, req.session.user).then(hook => {
     res.json({
       status: constants.resCode.SUCCESS,
       data: hook
@@ -34,7 +34,7 @@ router.post('/create', function (req, res, next) {
  * 查询hook配置
  */
 router.post('/query', function (req, res, next) {
-  hookService.query().then(results => {
+  hookService.query(req.session.user).then(results => {
     res.json({
       status: constants.resCode.SUCCESS,
       data: results

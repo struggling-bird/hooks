@@ -7,9 +7,9 @@
 var hookDao = require('../dao/hook')
 
 module.exports = {
-  add (hook) {
+  add (hook, user) {
     return new Promise((resolve, reject) => {
-      hookDao.add(hook).then(id => {
+      hookDao.add(hook, user).then(id => {
         hookDao.getById(id).then(result => {
           resolve(result)
         })
@@ -18,7 +18,7 @@ module.exports = {
       })
     })
   },
-  query () {
-    return hookDao.query()
+  query (user) {
+    return hookDao.query(user)
   }
 }
