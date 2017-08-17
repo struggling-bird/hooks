@@ -147,6 +147,9 @@
           description: this.form.description
         }).then(() => {
           this.onReset()
+          this.$router.push({
+            name: 'hookList'
+          })
         }).catch(() => {
           this.$message({
             message: '创建失败',
