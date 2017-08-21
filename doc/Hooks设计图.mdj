@@ -1212,5 +1212,31 @@
 				}
 			]
 		}
+	],
+	"tags": [
+		{
+			"_type": "Tag",
+			"_id": "AAAAAAFd7sw5PVHKF6A=",
+			"_parent": {
+				"$ref": "AAAAAAFF+h6SjaM2Hec="
+			},
+			"name": "database",
+			"kind": "string",
+			"value": "hooks系统",
+			"checked": false,
+			"number": 0
+		},
+		{
+			"_type": "Tag",
+			"_id": "AAAAAAFd7sw5i1HNKjs=",
+			"_parent": {
+				"$ref": "AAAAAAFF+h6SjaM2Hec="
+			},
+			"name": "database",
+			"kind": "string",
+			"value": "hooks系统",
+			"checked": false,
+			"number": 0
+		}
 	]
 }

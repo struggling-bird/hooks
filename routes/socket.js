@@ -4,34 +4,8 @@
  * @author yqdong
  *
  */
-var socketIo = require('socket.io')
-var {exec} = require('child_process')
-/**
- *
- * @param socket
- * @param data
- */
-var onTerminal = (socket, data) => {
-  var order = data.order
-  exec(order + ' && pwd', {
-    cwd: data.cwd || process.cwd()
-  }, function (error, stdout, stderr) {
-    let response = error
-    if (stderr) {
-      response = stderr
-    } else {
-      response = stdout
-      let reg = /[\n\s]?\S*[\n\s]?$/
-      var cwd = response.match(reg)[0].replace(/\n/g, '')
-      response = response.replace(reg, '')
-    }
-    socket.emit('terminal', {
-      order: order,
-      response: response,
-      cwd
-    })
-  })
-}
+const socketIo = require('socket.io')
+const terminal = require('./terminal/client')
 
 module.exports = {
   init: function (server) {
@@ -39,7 +13,7 @@ module.exports = {
     io.on('connection', function (socket) {
 
       socket.on('terminal', (data) => {
-        onTerminal(socket, data)
+        terminal(socket, data)
       })
 
     })

@@ -13,7 +13,8 @@
     "express": "~4.14.1",
     "morgan": "~1.7.0",
     "node-sass-middleware": "0.9.8",
-    "serve-favicon": "~2.3.2"
+    "serve-favicon": "~2.3.2",
+    "ssh2": "^0.5.5"
   },
   "devDependencies": {
     "express-session": "^1.15.5",

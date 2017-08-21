@@ -84,7 +84,7 @@
       socket = io('/')
       socket.on('terminal', (data) => {
         context.inputHistory.push(data)
-        context.cwd = data.cwd
+        context.cwd = data.cwd || context.cwd
         setTimeout(() => {
           context.$refs.terminalPanel.scrollTop = 999999
         })
