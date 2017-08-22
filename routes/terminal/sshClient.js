@@ -47,7 +47,6 @@ module.exports.exec = (client, commond) => {
         return
       }
       stream.on('close', function(code, signal) {
-        console.log('命令执行结束')
         resolve()
       }).on('data', function(data) {
         resolve(data.toString())

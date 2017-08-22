@@ -10,7 +10,9 @@ const sshClient = require('./sshClient')
 let sshPool = {
   /*[id]: {
    client: null,
-   running: true
+   running: true,
+   preCwd: '',
+   cwd: ''
    }*/
 }
 
@@ -27,6 +29,7 @@ const openSSH = (data, socket) => {
       preCwd: data.cwd || '',
       cwd: ''
     }
+    execInSSH({order: 'pwd'}, socket, client)
   }).catch(error => {
     console.error('ssh连接失败', error)
   })
@@ -41,7 +44,6 @@ const normalExec = (order, socket, data) => {
   exec(order + ' && pwd', {
     cwd: data.cwd || process.cwd()
   }, function (error, stdout, stderr) {
-    let res = error
     if (stderr || error) {
       errorResponse(order, stderr || error, socket)
     } else {
@@ -57,25 +59,41 @@ const normalExec = (order, socket, data) => {
  * @param data
  */
 const execInSSH = (data, socket, client) => {
-  const order = `cd ${data.cwd || ''} && ${data.order} && pwd`
+  const sshInstance = sshPool[socket.id]
 
+  if (data.order === 'exit') {
+    sshInstance.client.end()
+    sshInstance.running = false
+    normalExec('pwd', socket, {
+      cwd: sshInstance.preCwd
+    })
+    delete sshPool[socket.id]
+    return
+  }
+  const order = `cd ${sshInstance.cwd || ''};${data.order};pwd`
   sshClient.exec(client, order).then(res => {
-    response(data.order, res, socket)
+    response(data.order, res, socket, true)
   }).catch(err => {
     errorResponse(data.order, err, socket)
   })
 }
 
-const response = (order, data, socket) => {
-  let reg = /[\n\s]?\S*[\n\s]?$/
-  var cwd = data.match(reg)[0].replace(/\n/g, '')
+const response = (order, data, socket, inSSh) => {
+  data = data || ''
+  let reg = /[\n\s]?\/\S*[\n\s]?$/
+  var cwd = data.match(reg) ? data.match(reg)[0].replace(/\n/g, '') : ''
   const response = data.replace(reg, '')
+
+  if (inSSh) {
+    sshPool[socket.id].cwd = cwd || sshPool[socket.id].cwd
+  }
 
   socket.emit('terminal', {
     order,
     response,
     cwd
   })
+
 }
 
 const errorResponse = (order, err, socket) => {
@@ -87,12 +105,12 @@ const errorResponse = (order, err, socket) => {
 
 module.exports = (socket, data) => {
   const order = data.order
-  if (!sshPool[socket.id]) sshPool[socket.id] = socket.id
+  const sshInstance = sshPool[socket.id]
 
   if (/^ssh/.test(order)) {
     openSSH(data, socket)
-  } else if (sshPool[socket.id] && sshPool[socket.id].running) {
-    execInSSH(data, socket, sshPool[socket.id].client)
+  } else if (sshInstance && sshInstance.running) {
+    execInSSH(data, socket, sshInstance.client)
   } else {
     normalExec(order, socket, data)
   }
