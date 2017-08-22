@@ -48,5 +48,22 @@ module.exports = {
       where u.id = ${user.id} 
       order by h.create_time desc`
     return db.query(sql)
+  },
+  /**
+   * 通过命令调用获取hook详情
+   * @param param
+   * @returns {*}
+   */
+  getByOrder (param = {
+    token: '',
+    hookId: ''
+  }) {
+    const sql = `select h.* from hook h 
+      join hook_user hu on h.id = hu.hook_id 
+      join user u on hu.user_id = u.id 
+        where 
+      u.token = '${param.token}' and h.id = '${param.hookId}'`
+
+    return db.query(sql)
   }
 }

@@ -25,14 +25,13 @@
         <div slot="header" class="header">目标命令栏</div>
         <div class="result-panel">
           <el-tag v-for="(item, index) in results">
-            <el-tooltip :content="item" placement="left">
+            <el-tooltip :content="item" placement="left" :key="index">
               <label>{{item}}</label>
             </el-tooltip>
             <i class="el-icon-document"></i>
-            <i class="el-icon-delete"></i>
+            <i class="el-icon-delete" @click="onDelOrder(index)"></i>
           </el-tag>
         </div>
-        <el-button class="btn-default" type="primary" @click="onGenerateDefault">生成默认命令集</el-button>
       </el-card>
     </div>
 
@@ -106,6 +105,7 @@
       onEnterOrder () {
         const order = this.$refs.terminalInput.value
         if (!order) return
+        this.results.push(order)
         socket.emit('terminal', {
           order,
           cwd: this.cwd
@@ -125,13 +125,9 @@
         let path = this.cwd.split('/')
         return path[path.length - 1]
       },
-      onGenerateDefault () {
-        this.results = this.inputHistory.map((item) => {
-          return item.order
-        })
-      },
       onClearHistory () {
         this.inputHistory = []
+        this.results = []
       },
       onReset () {
         this.dialogFormVisible = false
@@ -154,6 +150,10 @@
             type: 'error'
           })
         })
+      },
+      onDelOrder (index) {
+        console.log(index)
+        this.results.splice(index, 1)
       }
     }
   }

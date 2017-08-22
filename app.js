@@ -43,5 +43,6 @@ app.use(require('./filter/auth'))
 
 app.use('/users', users);
 app.use('/hook', require('./routes/hook'))
+app.use('/api', require('./routes/api'))
 
 module.exports = app;

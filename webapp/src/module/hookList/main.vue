@@ -29,7 +29,11 @@
           <template scope="scope">
             <!--<el-tag color="#F5B95F"></el-tag>-->
             {{getAddr(scope.row)}}
-            <el-tag class="copy-btn" :data-clipboard-text="getAddr(scope.row)" @click="handleEdit(scope.$index, scope.row)">复制</el-tag>
+            <el-tag class="copy-btn"
+                    :data-clipboard-text="getAddr(scope.row)"
+                    @click="handleEdit(scope.$index, scope.row)">
+              复制
+            </el-tag>
           </template>
         </el-table-column>
 
@@ -93,6 +97,7 @@
 <script>
   import {actions} from '../../store/constants/main'
   import Clipboard from 'clipboard'
+  import {ajax} from '../../utils/main'
 
   export default {
     name: 'main',
@@ -131,7 +136,7 @@
     },
     methods: {
       getAddr (row) {
-        const addr = `${location.protocol}//${this.currentUser.address}${location.port ? (':' + location.port) : ''}/${this.currentUser.token}/${row.id}`
+        const addr = `${location.protocol}//${this.currentUser.address}${location.port ? (':' + location.port) : ''}/api/${this.currentUser.token}/${row.id}`
         return addr
       },
       handleEdit (index, row) {
@@ -143,6 +148,17 @@
       clickCreate () {
         this.$router.push({
           name: 'createHook'
+        })
+      },
+      testOrder (row) {
+        console.log('test order', this.getAddr(row))
+        ajax({
+          url: this.getAddr(row),
+          method: 'post'
+        }).then(res => {
+          console.log(res)
+        }).catch(error => {
+          console.error(error)
         })
       }
     }

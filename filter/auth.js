@@ -7,7 +7,10 @@
 var constants = require('../routes/constants')
 
 module.exports = function (req, res, next) {
-  if (req.session.user || req.originalUrl === '/users/login') {
+  if (req.session.user ||
+    req.url === '/users/login' ||
+    /^\/api/.test(req.url)
+  ) {
     next()
   } else {
     res.json({

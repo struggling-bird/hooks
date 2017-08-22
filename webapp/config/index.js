@@ -30,6 +30,7 @@ module.exports = {
     proxyTable: {
       '/socket.io': 'http://localhost:3000',
       '/users': 'http://localhost:3000',
+      '/api': 'http://localhost:3000',
       '/hook': 'http://localhost:3000'
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"

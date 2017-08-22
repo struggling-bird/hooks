@@ -8,12 +8,7 @@ var express = require('express');
 var router = express.Router();
 const hookService = require('../service/hook')
 const constants = require('./constants')
-/**
- * 供外部调用的hook接口
- */
-router.get('/:token/:hookId', function (req, res, next) {
 
-})
 /**
  * 创建hook配置
  */

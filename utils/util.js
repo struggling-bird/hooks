@@ -4,6 +4,8 @@
  * @author yqdong
  *
  */
+var crypto = require('crypto')
+
 module.exports = {
   type (obj) {
     return Object.prototype.toString.call(obj)
@@ -75,5 +77,10 @@ module.exports = {
       result[this.toUnderLine(key)] = obj[key]
     }
     return result
+  },
+  md5 (str, encoding = 'hex') {
+    const md5 = crypto.createHash('md5')
+    md5.update(str)
+    return md5.digest(encoding)
   }
 }

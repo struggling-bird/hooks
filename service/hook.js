@@ -4,7 +4,8 @@
  * @author yqdong
  *
  */
-var hookDao = require('../dao/hook')
+const hookDao = require('../dao/hook')
+const {exec} = require('child_process')
 
 module.exports = {
   add (hook, user) {
@@ -20,5 +21,34 @@ module.exports = {
   },
   query (user) {
     return hookDao.query(user)
+  },
+  execCommand (param = {
+    token: '',
+    hookId: ''
+  }) {
+    return new Promise((resolve, reject) => {
+
+      hookDao.getByOrder(param).then(hooks => {
+        if (hooks.length === 1) {
+          const hook = hooks[0]
+          const command = JSON.parse(hook.command).join(';') + ';exit'
+
+          exec(command, (error, stdout, stderr) => {
+            if (error || stderr) {
+              reject('命令执行失败')
+            } else {
+              resolve(stdout)
+            }
+          })
+
+        } else {
+          reject('调用地址不存在')
+        }
+
+      }).catch(() => {
+        reject('调用失败')
+      })
+
+    })
   }
 }
