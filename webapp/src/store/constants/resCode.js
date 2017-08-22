@@ -7,5 +7,6 @@
 export default {
   SUCCESS: 1,
   ERROR: 0,
-  INVALID_USER: -1
+  INVALID_USER: -1,
+  PARAM_ERROR: -2
 }

@@ -7,7 +7,8 @@
 export default {
   hook: {
     create: 'createHook',
-    query: 'queryHooks'
+    query: 'queryHooks',
+    del: 'delHook'
   },
   user: {
     getUser: 'getUser',

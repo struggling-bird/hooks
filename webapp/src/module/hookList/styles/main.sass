@@ -4,36 +4,16 @@
   display: flex
   flex-direction: column
   .top-panel
-    flex: none
+    height: 100%
+    display: flex
+    flex-direction: column
     &>.el-button
       margin-bottom: 15px
+      width: 100px
+      flex: none
     .el-table
+      flex: 1
       margin-bottom: 15px
       .copy-btn
         margin-bottom: 5px
         cursor: pointer
-  .terminal-panel
-    flex: 1
-    display: flex
-    flex-direction: row
-    .detail-panel,.run-panel
-      flex: 1
-      .el-card__body
-        height: 100%
-        display: flex
-        flex-direction: column
-        .el-tag, label
-          flex: none
-        .el-tag
-          width: 50px
-          text-align: center
-        .content
-          flex: 1
-          margin-top: 10px
-          border: 1px solid $color-border-split
-          border-radius: $border-radius
-          font-size: $size-font-content-small
-          padding: 5px
-          overflow: auto
-    .detail-panel
-      margin-right: 15px

@@ -17,6 +17,14 @@ export default {
     },
     [mutations.hook.add] (state, hook) {
       state.list.push(hook)
+    },
+    [mutations.hook.del] (state, id) {
+      for (let i = 0, len = state.list.length; i < len; i++) {
+        if (state.list[i].id === id) {
+          state.list.splice(i, 1)
+          break
+        }
+      }
     }
   },
   actions: {
@@ -46,6 +54,22 @@ export default {
           method: 'post'
         }).then(res => {
           context.commit(mutations.hook.updateList, res.data)
+          resolve()
+        }).catch(() => {
+          reject()
+        })
+      })
+    },
+    [actions.hook.del] (context, id) {
+      return new Promise((resolve, reject) => {
+        ajax({
+          url: '/hook/delete',
+          method: 'post',
+          data: {
+            id
+          }
+        }).then(() => {
+          context.commit(mutations.hook.del, id)
           resolve()
         }).catch(() => {
           reject()

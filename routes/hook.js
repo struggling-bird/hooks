@@ -45,7 +45,27 @@ router.post('/query', function (req, res, next) {
  * 删除hook配置
  */
 router.post('/delete', function (req, res, next) {
-
+  if (!req.body.id) {
+    res.json({
+      status: constants.resCode.PARAM_ERROR,
+      message: '缺少参数'
+    })
+    return
+  }
+  hookService.del({
+    userId: req.session.user.id,
+    hookId: req.body.id
+  }).then(() => {
+    res.json({
+      status: constants.resCode.SUCCESS
+    })
+  }).catch(err => {
+    console.error(err)
+    res.json({
+      status: constants.resCode.ERROR,
+      message: '删除失败'
+    })
+  })
 })
 /**
  * 编辑hook配置

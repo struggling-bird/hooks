@@ -7,7 +7,13 @@
 const hookDao = require('../dao/hook')
 const {exec} = require('child_process')
 
-module.exports = {
+const hookService = {
+  /**
+   * 添加hook
+   * @param hook
+   * @param user
+   * @returns {Promise}
+   */
   add (hook, user) {
     return new Promise((resolve, reject) => {
       hookDao.add(hook, user).then(id => {
@@ -19,9 +25,28 @@ module.exports = {
       })
     })
   },
+  /**
+   * 查询用户的所有hook
+   * @param user
+   * @returns {Promise}
+   */
   query (user) {
-    return hookDao.query(user)
+    return new Promise((resolve, reject) => {
+      hookDao.query(user).then(list => {
+        resolve(list.map(item => {
+          item.command = JSON.parse(item.command)
+          return item
+        }))
+      }).catch(err => {
+        reject(err)
+      })
+    })
   },
+  /**
+   * 执行指定hook命令
+   * @param param
+   * @returns {Promise}
+   */
   execCommand (param = {
     token: '',
     hookId: ''
@@ -50,5 +75,17 @@ module.exports = {
       })
 
     })
+  },
+  /**
+   * 删除hook
+   * @param param
+   * @returns {*}
+   */
+  del (param = {
+    userId: '',
+    hookId: ''
+  }) {
+    return hookDao.del(param)
   }
 }
+module.exports = hookService

@@ -5,12 +5,12 @@
  * 二次包装axios库，添加返回结果code校验等过滤器功能
  */
 import axios from 'axios'
-// import util from './util'
+import {resCode} from '../store/constants/main'
 
 export default function (option) {
   return new Promise((resolve, reject) => {
     axios(option).then((res) => {
-      if (res.data.status) {
+      if (res.data.status === resCode.SUCCESS) {
         resolve(res.data)
       } else {
         reject(res.data)

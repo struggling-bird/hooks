@@ -7,6 +7,7 @@
 export default {
   hook: {
     updateList: 'updateList',
-    add: 'addHook'
+    add: 'addHook',
+    del: 'delHook'
   }
 }
