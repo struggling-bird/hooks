@@ -17,9 +17,9 @@ const hookService = {
   add (hook, user) {
     return new Promise((resolve, reject) => {
       hookDao.add(hook, user).then(id => {
-        hookDao.getById(id).then(result => {
-          resolve(result)
-        })
+        return hookDao.getById(id)
+      }).then(result => {
+        resolve(result)
       }).catch(() => {
         reject()
       })
@@ -38,6 +38,7 @@ const hookService = {
           return item
         }))
       }).catch(err => {
+        console.error(err)
         reject(err)
       })
     })

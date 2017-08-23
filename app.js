@@ -44,5 +44,6 @@ app.use(require('./filter/auth'))
 app.use('/users', users);
 app.use('/hook', require('./routes/hook'))
 app.use('/api', require('./routes/api'))
+app.use('/ssh', require('./routes/ssh'))
 
 module.exports = app;

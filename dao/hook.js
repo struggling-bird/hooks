@@ -5,6 +5,7 @@
  *
  */
 var db = require('./mysql')
+var util = require('../utils/util')
 var uuid = require('node-uuid')
 
 const hookDao = {
@@ -15,7 +16,7 @@ const hookDao = {
    * @returns {Promise}
    */
   add (hook, user) {
-    const id = uuid.v1()
+    const id = util.md5(uuid.v1(), 'base64')
     const sql = `insert into hook(id,name,description,command,create_time) values('${id}', '${hook.name}', '${hook.description}', '${hook.command}', ${Date.now()})`
 
     return new Promise((resolve, reject) => {
@@ -67,7 +68,7 @@ const hookDao = {
     const sql = `select h.* from hook h 
       join hook_user hu on h.id=hu.hook_id 
       join user u on hu.user_id=u.id 
-      where u.id = ${user.id} 
+      where u.id = '${user.id}' 
       order by h.create_time desc`
     return db.query(sql)
   },

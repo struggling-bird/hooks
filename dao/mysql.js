@@ -22,6 +22,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       connection.query(sql, function (error, results) {
         if (error) {
+          console.error(sql, error)
           reject(error)
         } else {
           resolve(serialization(results))

@@ -90,7 +90,12 @@
       }
     },
     mounted () {
-      this.$store.dispatch(actions.hook.query)
+      this.$store.dispatch(actions.hook.query).catch(() => {
+        this.$message({
+          message: '列表查询失败',
+          type: 'error'
+        })
+      })
       this.clipboard = new Clipboard('.copy-btn')
       const context = this
       this.clipboard.on('success', () => {
