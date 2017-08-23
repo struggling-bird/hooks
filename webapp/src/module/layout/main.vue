@@ -8,9 +8,11 @@
       <el-menu default-active="1" theme="dark" :router="true">
         <el-menu-item index="1" :route="{name: 'hookList'}"
         ><i class="el-icon-menu"></i>列表</el-menu-item>
-        <el-menu-item index="2" :route="{name: 'history'}"
+        <el-menu-item index="2" :route="{name: 'ssh'}"
+        ><i class="el-icon-menu"></i>SSH</el-menu-item>
+        <el-menu-item index="3" :route="{name: 'history'}"
         ><i class="el-icon-document"></i>日志查询</el-menu-item>
-        <el-menu-item index="3"
+        <el-menu-item index="4"
         ><i class="el-icon-setting"></i>退出</el-menu-item>
       </el-menu>
     </div>

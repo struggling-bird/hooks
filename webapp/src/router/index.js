@@ -5,6 +5,7 @@ import layout from '../module/layout/main.vue'
 import hookList from '../module/hookList/main.vue'
 import createHook from '../module/hook/create.vue'
 import history from '../module/history/list.vue'
+import ssh from '../module/ssh/list.vue'
 
 const router = new Router({
   routes: [
@@ -22,6 +23,11 @@ const router = new Router({
           path: 'hook/create',
           name: 'createHook',
           component: createHook
+        },
+        {
+          path: 'ssh',
+          name: 'ssh',
+          component: ssh
         },
         {
           path: 'history',
