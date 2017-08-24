@@ -6,12 +6,17 @@
  */
 const socketIo = require('socket.io')
 const terminal = require('./terminal/client')
+const sessionMiddleware =require('../middleware/session')
 
 module.exports = {
   init: function (server) {
     var io = socketIo.listen(server)
-    io.on('connection', function (socket) {
 
+    io.use((socket, next) => {
+      sessionMiddleware(socket.request, socket.request.res, next)
+    })
+
+    io.on('connection', function (socket) {
       socket.on('terminal', (data) => {
         terminal(socket, data)
       })
