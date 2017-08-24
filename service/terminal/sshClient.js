@@ -4,7 +4,7 @@
  * @author yqdong
  *
  */
-const Client = require('ssh2').Client;
+const Client = require('ssh2').Client
 const sshDao = require('../../dao/ssh')
 
 /**
@@ -15,7 +15,7 @@ const sshDao = require('../../dao/ssh')
 module.exports.ssh = (order) => {
   const client = new Client()
   const nameReg = /\S*$/
-  
+
   return new Promise((resolve, reject) => {
     if (!nameReg.test(order)) {
       reject('命令格式错误')
@@ -33,7 +33,9 @@ module.exports.ssh = (order) => {
         reject('ssh登录失败')
       }).connect({
         host: config.ip,
+        port: config.port,
         username: config.userName,
+        password: config.password,
         privateKey: require('fs').readFileSync(config.privateKey)
       })
 
@@ -45,12 +47,12 @@ module.exports.ssh = (order) => {
 /**
  * 执行脚本命令
  * @param client
- * @param commond
+ * @param command
  * @returns {Promise}
  */
-module.exports.exec = (client, commond) => {
+module.exports.exec = (client, command) => {
   return new Promise((resolve, reject) => {
-    client.exec(commond, function (err, stream) {
+    client.exec(command, function (err, stream) {
       if (err) {
         reject(err)
         return

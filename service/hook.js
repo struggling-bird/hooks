@@ -5,7 +5,9 @@
  *
  */
 const hookDao = require('../dao/hook')
+const sshDao = require('../dao/ssh')
 const {exec} = require('child_process')
+const Client = require('ssh2').Client
 
 const hookService = {
   /**
@@ -56,22 +58,66 @@ const hookService = {
 
       hookDao.getByOrder(param).then(hooks => {
         if (hooks.length === 1) {
-          const hook = hooks[0]
-          const command = JSON.parse(hook.command).join(';') + ';exit'
 
-          exec(command, (error, stdout, stderr) => {
-            if (error || stderr) {
-              reject('命令执行失败')
-            } else {
-              resolve(stdout)
-            }
-          })
+          const hook = hooks[0]
+
+          hook.command = JSON.parse(hook.command)
+          if (/\bssh\b/.test(hook.command[0])) {
+
+            const sshName = hook.command.splice(0, 1)[0].match(/\S*$/)[0]
+            sshDao.getByName(sshName).then(config => {
+
+              const client = new Client()
+              client.on('ready', () => {
+
+                let command = hook.command.join(';')
+                client.exec(command, function (err, stream) {
+                  if (err) {
+                    reject(err)
+                    return
+                  }
+                  stream.on('data', function(data) {
+                    resolve(data.toString())
+                    client.end();
+                  }).stderr.on('data', function(data) {
+                    reject(data.toString())
+                  });
+                })
+
+              }).on('error', err => {
+                throw err
+              }).connect({
+                host: config.ip,
+                port: config.port,
+                username: config.userName,
+                password: config.password,
+                privateKey: require('fs').readFileSync(config.privateKey)
+              })
+
+            }).catch(err => {
+              console.error(`ssh ${sshName}执行错误`, err)
+              reject(`ssh ${sshName}执行错误`)
+            })
+
+
+          } else {
+
+            let command = hook.command.join(';')
+            exec(command, (error, stdout, stderr) => {
+              if (error || stderr) {
+                reject(`${command}命令执行失败`)
+              } else {
+                resolve(stdout)
+              }
+            })
+          }
 
         } else {
           reject('调用地址不存在')
         }
 
-      }).catch(() => {
+      }).catch((err) => {
+        console.error(err)
         reject('调用失败')
       })
 
