@@ -5,7 +5,7 @@
  *
  */
 const socketIo = require('socket.io')
-const terminal = require('./terminal/client')
+const terminal = require('../service/terminal/client')
 const sessionMiddleware =require('../middleware/session')
 
 module.exports = {

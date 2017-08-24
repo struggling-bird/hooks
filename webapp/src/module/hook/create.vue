@@ -89,6 +89,9 @@
         })
       })
     },
+    beforeDestroy () {
+      socket.close()
+    },
     methods: {
       clickReturn () {
         this.$router.replace({name: 'hookList'})
@@ -152,7 +155,6 @@
         })
       },
       onDelOrder (index) {
-        console.log(index)
         this.results.splice(index, 1)
       }
     }

@@ -39,6 +39,14 @@ const sshService = {
    */
   delByName (userId = '', name = '') {
     return sshDao.delByName(userId, name)
+  },
+  /**
+   * 通过ssh配置名称获取配置详情
+   * @param name
+   * @returns {*|Promise}
+   */
+  getByName (name = '') {
+    return sshDao.getByName(name)
   }
 }
 

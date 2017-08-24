@@ -4,7 +4,9 @@
  * @author yqdong
  *
  */
-var Client = require('ssh2').Client;
+const Client = require('ssh2').Client;
+const sshDao = require('../../dao/ssh')
+
 /**
  * 连接远程终端
  * @param order
@@ -12,25 +14,32 @@ var Client = require('ssh2').Client;
  */
 module.exports.ssh = (order) => {
   const client = new Client()
-  //todo need init by order or ssh config
-  const host = '192.168.0.15'
-  const username = 'root'
-  const privateKey = '/Users/yqdong/.ssh/id_rsa'
-
+  const nameReg = /\S*$/
+  
   return new Promise((resolve, reject) => {
-    try {
+    if (!nameReg.test(order)) {
+      reject('命令格式错误')
+      return
+    }
+
+    const sshName = order.match(nameReg)[0]
+
+    sshDao.getByName(sshName).then(config => {
+
       client.on('ready', () => {
         resolve(client)
       }).on('error', err => {
-        reject(err)
+        console.log('ssh登录失败', err)
+        reject('ssh登录失败')
       }).connect({
-        host: host,
-        username: username,
-        privateKey: require('fs').readFileSync(privateKey)
+        host: config.ip,
+        username: config.userName,
+        privateKey: require('fs').readFileSync(config.privateKey)
       })
-    } catch (error) {
-      reject(error)
-    }
+
+    }).catch(() => {
+      reject('ssh配置获取失败')
+    })
   })
 }
 /**

@@ -31,7 +31,7 @@ const openSSH = (data, socket) => {
     }
     execInSSH({order: 'pwd'}, socket, client)
   }).catch(error => {
-    console.error('ssh连接失败', error)
+    errorResponse(data.order, error, socket)
   })
 }
 /**
