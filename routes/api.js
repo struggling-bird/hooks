@@ -21,7 +21,6 @@ router.use((req, res, next) => {
  */
 router.post('/:token/:hookId', function (req, res, next) {
   hookService.execCommand(req.params).then(result => {
-    console.log('命令调用结果', result)
     res.json({
       status: constants.resCode.SUCCESS,
       data: result

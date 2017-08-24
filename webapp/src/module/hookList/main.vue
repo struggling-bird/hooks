@@ -134,14 +134,18 @@
         })
       },
       testOrder (row) {
-        console.log('test order', this.getAddr(row))
         ajax({
           url: this.getAddr(row),
           method: 'post'
         }).then(res => {
           console.log(res)
+          this.$message('调用成功')
         }).catch(error => {
-          console.error(error)
+          this.$message({
+            message: '调用失败',
+            type: 'error'
+          })
+          console.error('调用失败', error)
         })
       }
     }
