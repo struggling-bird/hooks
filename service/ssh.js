@@ -22,6 +22,9 @@ const sshService = {
     privateKey: ''
   }) {
     return sshDao.create(userId, ssh)
+  },
+  query (userId = '') {
+    return sshDao.query(userId)
   }
 }
 

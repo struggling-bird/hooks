@@ -6,8 +6,10 @@
  */
 import user from './user'
 import hook from './hook'
+import ssh from './ssh'
 
 export default {
   user,
-  hook
+  hook,
+  ssh
 }

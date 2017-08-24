@@ -13,5 +13,9 @@ export default {
   user: {
     getUser: 'getUser',
     login: 'login'
+  },
+  ssh: {
+    create: 'createSSh',
+    query: 'querySShList'
   }
 }

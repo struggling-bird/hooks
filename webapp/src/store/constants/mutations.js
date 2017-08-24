@@ -9,5 +9,9 @@ export default {
     updateList: 'updateList',
     add: 'addHook',
     del: 'delHook'
+  },
+  ssh: {
+    add: 'addSShConfig',
+    updateList: 'updateSShList'
   }
 }

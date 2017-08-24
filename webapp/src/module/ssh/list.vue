@@ -89,6 +89,7 @@
 </template>
 
 <script>
+  import {actions} from '../../store/constants/main'
   export default {
     name: 'list',
     data () {
@@ -101,16 +102,16 @@
           userName: '',
           password: '',
           privateKey: ''
-        },
-        list: [{
-          name: '15测试机',
-          ip: '192.168.0.15',
-          port: 20,
-          userName: 'root',
-          password: 'fdi92ufjej',
-          privateKey: '/Users/yqdong/.ssh/id_rsa'
-        }]
+        }
       }
+    },
+    computed: {
+      list () {
+        return this.$store.state.ssh.list
+      }
+    },
+    mounted () {
+      this.$store.dispatch(actions.ssh.query)
     },
     methods: {
       onDel (row) {
