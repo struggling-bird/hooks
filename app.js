@@ -25,11 +25,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use(require('express-session')({
-  secret: 'zhuge hooks system',
-  saveUninitialized: true,
-  resave: false
-}))
+app.use(require('./middleware/session'))
 
 app.use(require('node-sass-middleware')({
   src: path.join(__dirname, 'public'),
@@ -39,7 +35,7 @@ app.use(require('node-sass-middleware')({
 }));
 app.use(express.static(path.join(__dirname, 'static')));
 
-app.use(require('./filter/auth'))
+app.use(require('./middleware/auth'))
 
 app.use('/users', users);
 app.use('/hook', require('./routes/hook'))
