@@ -16,6 +16,7 @@ export default {
   },
   ssh: {
     create: 'createSSh',
-    query: 'querySShList'
+    query: 'querySShList',
+    del: 'deleteSSh'
   }
 }

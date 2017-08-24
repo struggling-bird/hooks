@@ -1,6 +1,6 @@
 <template>
   <div class="ssh">
-    <el-button type="primary" @click="showDialog = true">新增</el-button>
+    <el-button type="primary" @click.prevent="toCreate">新增</el-button>
 
     <el-table
       :data="list"
@@ -58,7 +58,7 @@
     <el-dialog title="创建SSH配置" :visible.sync="showDialog" size="tiny">
       <el-form label-width="90px" v-model="createForm">
         <el-form-item label="名称">
-          <el-input v-model="createForm.name" auto-complete="off"></el-input>
+          <el-input ref="name" v-model="createForm.name" auto-complete="off"></el-input>
         </el-form-item>
 
         <el-form-item label="IP">
@@ -98,7 +98,7 @@
         createForm: {
           name: '',
           ip: '',
-          port: 20,
+          port: 22,
           userName: '',
           password: '',
           privateKey: ''
@@ -111,14 +111,33 @@
       }
     },
     mounted () {
-      this.$store.dispatch(actions.ssh.query)
+      this.$store.dispatch(actions.ssh.query).catch(() => {
+        this.$message({
+          message: '获取配置列表失败',
+          type: 'error'
+        })
+      })
     },
     methods: {
+      toCreate () {
+        this.showDialog = true
+        if (this.$refs.name) this.$refs.name.$el.focus()
+      },
       onDel (row) {
-        console.log(row)
+        this.$store.dispatch(actions.ssh.del, row.name).catch(() => {
+          this.$message({
+            message: '删除配置失败',
+            type: 'error'
+          })
+        })
       },
       onSave () {
-        console.log('save')
+        this.$store.dispatch(actions.ssh.create, this.createForm).catch(() => {
+          this.$message({
+            message: '创建ssh配置失败',
+            type: 'error'
+          })
+        })
         this.onReset()
         this.showDialog = false
       },

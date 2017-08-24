@@ -12,6 +12,7 @@ export default {
   },
   ssh: {
     add: 'addSShConfig',
+    del: 'deleteSSh',
     updateList: 'updateSShList'
   }
 }

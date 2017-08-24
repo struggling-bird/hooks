@@ -23,8 +23,22 @@ const sshService = {
   }) {
     return sshDao.create(userId, ssh)
   },
+  /**
+   * 查询用户的所有ssh配置
+   * @param userId
+   * @returns {*}
+   */
   query (userId = '') {
     return sshDao.query(userId)
+  },
+  /**
+   * 根据名称删除ssh配置
+   * @param userId
+   * @param name
+   * @returns {*|Promise}
+   */
+  delByName (userId = '', name = '') {
+    return sshDao.delByName(userId, name)
   }
 }
 

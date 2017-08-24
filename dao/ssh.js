@@ -21,7 +21,7 @@ const sshDao = {
     password: '',
     privateKey: ''
   }) {
-    const sql = `INSERT INTO 'ssh' ('user_id', 'name', 'ip', 'port', 'user_name', 'password', 'private_key') 
+    const sql = `INSERT INTO ssh (user_id, name, ip, port, user_name, password, private_key) 
       VALUES ('${userId}', '${ssh.name}', '${ssh.ip}', '${ssh.port}', 
       '${ssh.userName}', '${ssh.password}', '${ssh.privateKey}');`
 
@@ -63,6 +63,16 @@ const sshDao = {
         reject(err)
       })
     })
+  },
+  /**
+   *
+   * @param userId
+   * @param name
+   * @returns {*}
+   */
+  delByName (userId = '', name = '') {
+    const sql = `delete from ssh where name = '${name}' and user_id = '${userId}'`
+    return db.query(sql)
   }
 }
 
