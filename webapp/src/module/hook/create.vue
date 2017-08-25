@@ -42,9 +42,6 @@
         <el-form-item label="HOOK名称">
           <el-input v-model="form.name" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="描述">
-          <el-input v-model="form.description" type="textarea" :rows="4"></el-input>
-        </el-form-item>
         <el-button type="primary" native-type="submit" @click.prevent="onSave">确 定</el-button>
         <el-button @click="onReset">取 消</el-button>
       </el-form>
@@ -73,8 +70,7 @@
 
         ],
         form: {
-          name: '',
-          description: ''
+          name: ''
         }
       }
     },
@@ -106,7 +102,7 @@
        * 输入命令事件处理
        */
       onEnterOrder () {
-        const order = this.$refs.terminalInput.value
+        const order = this.$refs.terminalInput.value.trim()
         if (!order) return
         this.results.push(order)
         socket.emit('terminal', {
@@ -137,12 +133,34 @@
         this.form.name = ''
         this.form.description = ''
       },
+      checkParam (param) {
+        let flag = true
+        let message = ''
+        if (!param.name) {
+          flag = false
+          message = 'hook名称不能为空'
+        } else if (!this.results.length) {
+          flag = false
+          message = '命令集不能为空'
+        } else if (/\bssh\b/.test(param.command) && !/^ssh\b/.test(this.results[0])) {
+          flag = false
+          message = '如果要使用ssh登录，请确保ssh命令位于命令集首位'
+        }
+        if (!flag) {
+          this.$message({
+            message,
+            type: 'error'
+          })
+        }
+        return flag
+      },
       onSave () {
-        this.$store.dispatch(actions.hook.create, {
+        const param = {
           name: this.form.name,
-          command: JSON.stringify(this.results),
-          description: this.form.description
-        }).then(() => {
+          command: JSON.stringify(this.results)
+        }
+        if (!this.checkParam(param)) return
+        this.$store.dispatch(actions.hook.create, param).then(() => {
           this.onReset()
           this.$router.push({
             name: 'hookList'

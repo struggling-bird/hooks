@@ -103,15 +103,25 @@ const errorResponse = (order, err, socket) => {
   })
 }
 
-module.exports = (socket, data) => {
-  const order = data.order
-  const sshInstance = sshPool[socket.id]
+const terminalClient = {
+  exec (socket, data) {
+    const order = data.order
+    const sshInstance = sshPool[socket.id]
 
-  if (/^ssh/.test(order)) {
-    openSSH(data, socket)
-  } else if (sshInstance && sshInstance.running) {
-    execInSSH(data, socket, sshInstance.client)
-  } else {
-    normalExec(order, socket, data)
+    if (/^ssh/.test(order)) {
+      openSSH(data, socket)
+    } else if (sshInstance && sshInstance.running) {
+      execInSSH(data, socket, sshInstance.client)
+    } else {
+      normalExec(order, socket, data)
+    }
+  },
+  close (socket) {
+    const sshInstance = sshPool[socket.id]
+    if (sshInstance && sshInstance.running) {
+      sshInstance.client.end()
+      console.log('ssh连接关闭')
+    }
   }
 }
+module.exports = terminalClient

@@ -30,8 +30,7 @@ export default {
   actions: {
     [actions.hook.create] (context, hook = {
       name: '',
-      command: '',
-      description: ''
+      command: ''
     }) {
       return new Promise((resolve, reject) => {
         ajax({

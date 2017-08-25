@@ -18,9 +18,12 @@ module.exports = {
 
     io.on('connection', function (socket) {
       socket.on('terminal', (data) => {
-        terminal(socket, data)
+        terminal.exec(socket, data)
       })
-
+      socket.on('disconnect', reason => {
+        console.log('socket closed: ', reason)
+        terminal.close(socket)
+      })
     })
   }
 }

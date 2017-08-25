@@ -38,12 +38,6 @@
           </template>
         </el-table-column>
 
-        <el-table-column
-          label="描述"
-          width="300"
-          prop="description"
-        ></el-table-column>
-
         <el-table-column label="操作" width="250">
           <template scope="scope">
             <el-button
@@ -59,11 +53,22 @@
             <el-button
               size="small"
               type="danger"
-              @click="handleDelete(scope.row)">删除</el-button>
+              @click="onDel(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
+
+    <el-dialog
+      title="提示"
+      :visible.sync="showDelWarning"
+      size="tiny">
+      <span>确定要删除配置"{{toDel && toDel.name}}"吗</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="showDelWarning = false">取 消</el-button>
+        <el-button type="primary" @click="onConfirmDel">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -78,7 +83,9 @@
       return {
         copyRes: 'Copied',
         content: '',
-        clipboard: null
+        clipboard: null,
+        showDelWarning: false,
+        toDel: null
       }
     },
     computed: {
@@ -120,13 +127,18 @@
       handleEdit (row) {
         console.log(row)
       },
-      handleDelete (row) {
-        this.$store.dispatch(actions.hook.del, row.id).catch(() => {
+      onDel (row) {
+        this.toDel = row
+        this.showDelWarning = true
+      },
+      onConfirmDel () {
+        this.$store.dispatch(actions.hook.del, this.toDel.id).catch(() => {
           this.$message({
             type: 'error',
             message: '删除失败'
           })
         })
+        this.showDelWarning = false
       },
       clickCreate () {
         this.$router.push({

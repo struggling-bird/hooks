@@ -117,30 +117,6 @@
 										},
 										{
 											"_type": "ERDColumnView",
-											"_id": "AAAAAAFd5RB8SQGaYYI=",
-											"_parent": {
-												"$ref": "AAAAAAFd5Q/F0wF/0dk="
-											},
-											"model": {
-												"$ref": "AAAAAAFd5RB8GAGXRrw="
-											},
-											"visible": true,
-											"enabled": true,
-											"lineColor": "#000000",
-											"fillColor": "#ffffff",
-											"fontColor": "#000000",
-											"font": "Arial;13;0",
-											"showShadow": true,
-											"containerChangeable": false,
-											"containerExtending": false,
-											"left": 25,
-											"top": 259,
-											"width": 215,
-											"height": 13,
-											"autoResize": false
-										},
-										{
-											"_type": "ERDColumnView",
 											"_id": "AAAAAAFd5RDYHAGhko0=",
 											"_parent": {
 												"$ref": "AAAAAAFd5Q/F0wF/0dk="
@@ -158,7 +134,7 @@
 											"containerChangeable": false,
 											"containerExtending": false,
 											"left": 25,
-											"top": 274,
+											"top": 259,
 											"width": 215,
 											"height": 13,
 											"autoResize": false
@@ -182,7 +158,7 @@
 											"containerChangeable": false,
 											"containerExtending": false,
 											"left": 25,
-											"top": 289,
+											"top": 274,
 											"width": 215,
 											"height": 13,
 											"autoResize": false
@@ -206,7 +182,7 @@
 											"containerChangeable": false,
 											"containerExtending": false,
 											"left": 25,
-											"top": 304,
+											"top": 289,
 											"width": 215,
 											"height": 13,
 											"autoResize": false
@@ -230,7 +206,7 @@
 											"containerChangeable": false,
 											"containerExtending": false,
 											"left": 25,
-											"top": 319,
+											"top": 304,
 											"width": 215,
 											"height": 13,
 											"autoResize": false
@@ -248,7 +224,7 @@
 									"left": 20,
 									"top": 224,
 									"width": 225,
-									"height": 113,
+									"height": 98,
 									"autoResize": false
 								}
 							],
@@ -1372,20 +1348,6 @@
 							"primaryKey": false,
 							"foreignKey": false,
 							"nullable": false,
-							"unique": false
-						},
-						{
-							"_type": "ERDColumn",
-							"_id": "AAAAAAFd5RB8GAGXRrw=",
-							"_parent": {
-								"$ref": "AAAAAAFd5Q/F0QF72bw="
-							},
-							"name": "description",
-							"type": "VARCHAR",
-							"length": "500",
-							"primaryKey": false,
-							"foreignKey": false,
-							"nullable": true,
 							"unique": false
 						},
 						{

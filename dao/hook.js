@@ -17,7 +17,7 @@ const hookDao = {
    */
   add (hook, user) {
     const id = util.md5(uuid.v1(), 'hex')
-    const sql = `insert into hook(id,name,description,command,create_time) values('${id}', '${hook.name}', '${hook.description}', '${hook.command}', ${Date.now()})`
+    const sql = `insert into hook(id,name,command,create_time) values('${id}', '${hook.name}', '${hook.command}', ${Date.now()})`
 
     return new Promise((resolve, reject) => {
       db.query(sql).then(() => {
