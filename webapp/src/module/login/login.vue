@@ -40,6 +40,9 @@
         }
       }
     },
+    beforeCreate () {
+      console.log('检查是否系统已经初始化')
+    },
     methods: {
       login () {
         const context = this

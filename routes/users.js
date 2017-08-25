@@ -4,7 +4,7 @@ var router = express.Router();
 var constants = require('./constants')
 var userService = require('../service/user')
 
-router.post('/login', function(req, res, next) {
+router.post('/login', function(req, res) {
   userService.login({
     name: req.body.name,
     password: req.body.password
@@ -28,6 +28,13 @@ router.post('/getCurrent', (req, res) => {
   res.json({
     status: current ? constants.resCode.SUCCESS : constants.resCode.INVALID_USER,
     data: current
+  })
+})
+
+router.post('/logout', (req, res) => {
+  delete req.session.user
+  res.json({
+    status: constants.resCode.SUCCESS
   })
 })
 

@@ -12,6 +12,8 @@ export default function (option) {
     axios(option).then((res) => {
       if (res.data.status === resCode.SUCCESS) {
         resolve(res.data)
+      } else if (res.data.status === resCode.INVALID_USER) {
+        location.href = '/login'
       } else {
         reject(res.data)
       }

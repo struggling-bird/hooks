@@ -18,17 +18,6 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   modules
 })
-router.beforeEach((to, from, next) => {
-  if (to.name === 'login') {
-    next()
-  } else {
-    store.dispatch('getUser').then(() => {
-      next()
-    }).catch(() => {
-      router.push({name: 'login'})
-    })
-  }
-})
 
 /* eslint-disable no-new */
 new Vue({
