@@ -35,8 +35,8 @@ module.exports.ssh = (order) => {
         host: config.ip,
         port: config.port,
         username: config.userName,
-        password: config.password,
-        privateKey: require('fs').readFileSync(config.privateKey)
+        password: config.password || undefined,
+        privateKey: config.privateKey ? require('fs').readFileSync(config.privateKey) : undefined
       })
 
     }).catch(() => {

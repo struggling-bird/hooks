@@ -139,9 +139,9 @@
           })
         })
         this.onReset()
-        this.showDialog = false
       },
       onReset () {
+        this.showDialog = false
         this.createForm = {
           name: '',
           ip: '',
