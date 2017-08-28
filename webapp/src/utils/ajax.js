@@ -7,15 +7,17 @@
 import axios from 'axios'
 import {resCode} from '../store/constants/main'
 
-export default function (option) {
+var router = null
+
+const ajax = (option) => {
   return new Promise((resolve, reject) => {
     axios(option).then((res) => {
       if (res.data.status === resCode.SUCCESS) {
         resolve(res.data)
       } else if (res.data.status === resCode.INVALID_USER) {
-        location.href = '/login'
+        router.push('/login')
       } else if (res.data.status === resCode.NOT_FOUND_DB_CONFIG) {
-        console.log('没找到数据库配置')
+        router.push('/initDb')
       } else {
         reject(res.data)
       }
@@ -23,4 +25,11 @@ export default function (option) {
       reject(error)
     })
   })
+}
+const initRouter = (route) => {
+  router = route
+}
+export {
+  ajax,
+  initRouter
 }

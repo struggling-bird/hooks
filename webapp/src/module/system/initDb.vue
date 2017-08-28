@@ -119,7 +119,7 @@
             method: 'post',
             data: this.form
           }).then(res => {
-            console.log(res)
+            this.$router.push('/login')
           }).catch(() => {
             this.$message({
               message: '配置失败',

@@ -7,6 +7,7 @@ import Vuex from 'vuex'
 import App from './App'
 import router from './router'
 import modules from './store/main'
+import {initRouter} from './utils/ajax'
 
 import 'element-ui/lib/theme-default/index.css'
 
@@ -14,6 +15,8 @@ Vue.config.productionTip = false
 Vue.use(ElementUi)
 Vue.use(Router)
 Vue.use(Vuex)
+
+initRouter(router)
 
 const store = new Vuex.Store({
   modules

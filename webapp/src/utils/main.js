@@ -4,7 +4,7 @@
  * @author yqdong
  *
  */
-import ajax from './ajax'
+import {ajax} from './ajax'
 import util from './util'
 
 export {
