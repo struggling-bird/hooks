@@ -33,7 +33,7 @@
 </template>
 
 <script>
-//  import {ajax} from '../../utils/main'
+  import {ajax} from '../../utils/main'
   export default {
     name: 'initDb',
     data () {
@@ -113,17 +113,20 @@
       },
       onSave () {
         this.$refs.form.validate(valid => {
-          console.log(this)
+          if (!valid) return
+          ajax({
+            url: '/users/initDbConfig',
+            method: 'post',
+            data: this.form
+          }).then(res => {
+            console.log(res)
+          }).catch(() => {
+            this.$message({
+              message: '配置失败',
+              type: 'error'
+            })
+          })
         })
-//        for (let key in this.form) {
-//          if (!this.form[key]) {
-//            this.$message({
-//              message: `${key}值不能为空`,
-//              type: 'error'
-//            })
-//            return
-//          }
-//        }
       }
     }
   }

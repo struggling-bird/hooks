@@ -3,7 +3,9 @@ var os = require('os')
 var router = express.Router();
 var constants = require('./constants')
 var userService = require('../service/user')
-
+/**
+ * 登录
+ */
 router.post('/login', function(req, res) {
   userService.login({
     name: req.body.name,
@@ -22,7 +24,9 @@ router.post('/login', function(req, res) {
     })
   })
 });
-
+/**
+ * 获取当前用户信息
+ */
 router.post('/getCurrent', (req, res) => {
   var current = req.session.user
   res.json({
@@ -30,25 +34,25 @@ router.post('/getCurrent', (req, res) => {
     data: current
   })
 })
-
+/**
+ * 退出登录
+ */
 router.post('/logout', (req, res) => {
   delete req.session.user
   res.json({
     status: constants.resCode.SUCCESS
   })
 })
-/**
- * 检查系统配置：数据库配置
- */
-router.post('/sysCheck', (req, res) => {
-  userService.sysCheck().then(() => {
+
+router.post('/initDbConfig', (req, res) => {
+  userService.initDbConfig(req.body).then(() => {
     res.json({
       status: constants.resCode.SUCCESS
     })
-  }).catch(err => {
+  }).catch(() => {
     res.json({
-      status: constants.resCode.NOT_FOUND_DB_CONFIG,
-      message: err.toString()
+      status: constants.resCode.ERROR,
+      message: '配置已存在'
     })
   })
 })

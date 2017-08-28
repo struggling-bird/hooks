@@ -8,6 +8,7 @@ var constants = require('../routes/constants')
 
 module.exports = function (req, res, next) {
   if (req.url === '/users/login' ||
+    req.url === '/users/initDbConfig' ||
     /^\/api/.test(req.url) ||
     req.session.user
   ) {

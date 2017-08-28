@@ -4,7 +4,10 @@
  * @author yqdong
  *
  */
-var crypto = require('crypto')
+const crypto = require('crypto')
+const fs = require('fs')
+const path = require('path')
+const sysConfig = require('../config/sys')
 
 module.exports = {
   type (obj) {
@@ -82,5 +85,31 @@ module.exports = {
     const md5 = crypto.createHash('md5')
     md5.update(str)
     return md5.digest(encoding)
-  }
+  },
+  /**
+   * 检查数据库配置文件是否存在
+   * @returns {Promise}
+   */
+  dbConfigExist () {
+  return new Promise((resolve, reject) => {
+    const filePath = sysConfig.dbConfigDir
+
+    fs.stat(filePath, (err) => {
+      if (err) {
+        reject()
+      } else {
+        const stream = fs.createReadStream(filePath)
+        stream.on('data', data => {
+          try {
+            data = JSON.parse(data.toString())
+            resolve(data)
+          } catch (err) {
+            console.error(`${filePath}文件内容解析失败`, err)
+            reject()
+          }
+        })
+      }
+    })
+  })
+}
 }
