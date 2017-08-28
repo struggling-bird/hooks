@@ -1,8 +1,8 @@
 var express = require('express');
-var os = require('os')
 var router = express.Router();
 var constants = require('./constants')
 var userService = require('../service/user')
+const util = require('../utils/util')
 /**
  * 登录
  */
@@ -11,7 +11,7 @@ router.post('/login', function(req, res) {
     name: req.body.name,
     password: req.body.password
   }).then((user) => {
-    user.address = os.networkInterfaces().en0[1].address
+    user.address = util.getLocalIp()
     req.session.user = user
     res.json({
       status: constants.resCode.SUCCESS,

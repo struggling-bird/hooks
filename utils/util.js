@@ -7,6 +7,7 @@
 const crypto = require('crypto')
 const fs = require('fs')
 const path = require('path')
+const os = require('os')
 const sysConfig = require('../config/sys')
 
 module.exports = {
@@ -91,25 +92,39 @@ module.exports = {
    * @returns {Promise}
    */
   dbConfigExist () {
-  return new Promise((resolve, reject) => {
-    const filePath = sysConfig.dbConfigDir
+    return new Promise((resolve, reject) => {
+      const filePath = sysConfig.dbConfigDir
 
-    fs.stat(filePath, (err) => {
-      if (err) {
-        reject()
-      } else {
-        const stream = fs.createReadStream(filePath)
-        stream.on('data', data => {
-          try {
-            data = JSON.parse(data.toString())
-            resolve(data)
-          } catch (err) {
-            console.error(`${filePath}文件内容解析失败`, err)
-            reject()
-          }
-        })
-      }
+      fs.stat(filePath, (err) => {
+        if (err) {
+          reject()
+        } else {
+          const stream = fs.createReadStream(filePath)
+          stream.on('data', data => {
+            try {
+              data = JSON.parse(data.toString())
+              resolve(data)
+            } catch (err) {
+              console.error(`${filePath}文件内容解析失败`, err)
+              reject()
+            }
+          })
+        }
+      })
     })
-  })
-}
+  },
+  getLocalIp () {
+    var interfaces = os.networkInterfaces();
+    var addresses = [];
+    for (var k in interfaces) {
+      for (var k2 in interfaces[k]) {
+        var address = interfaces[k][k2];
+        if (address.family === 'IPv4' && !address.internal) {
+          addresses.push(address.address);
+        }
+      }
+    }
+
+    return addresses.length ? addresses[0] : ''
+  }
 }
