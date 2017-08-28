@@ -36,7 +36,7 @@ const hookService = {
     return new Promise((resolve, reject) => {
       hookDao.query(user).then(list => {
         resolve(list.map(item => {
-          item.command = JSON.parse(item.command)
+          item.command = JSON.parse(decodeURIComponent(item.command))
           return item
         }))
       }).catch(err => {
