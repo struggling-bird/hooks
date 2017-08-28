@@ -17,7 +17,8 @@ router.post('/login', function(req, res) {
       status: constants.resCode.SUCCESS,
       data: user
     })
-  }).catch(() => {
+  }).catch((err) => {
+    console.error(err)
     res.json({
       status: constants.resCode.ERROR,
       message: '用户名或密码错误'
