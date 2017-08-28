@@ -8,5 +8,6 @@ export default {
   SUCCESS: 1,
   ERROR: 0,
   INVALID_USER: -1,
-  PARAM_ERROR: -2
+  PARAM_ERROR: -2,
+  NOT_FOUND_DB_CONFIG: -3
 }

@@ -6,6 +6,7 @@ import hookList from '../module/hookList/main.vue'
 import createHook from '../module/hook/create.vue'
 import history from '../module/history/list.vue'
 import ssh from '../module/ssh/list.vue'
+import initDb from '../module/system/initDb.vue'
 
 const router = new Router({
   routes: [
@@ -40,6 +41,11 @@ const router = new Router({
       path: '/login',
       name: 'login',
       component: login
+    },
+    {
+      path: '/initDb',
+      name: 'initDb',
+      component: initDb
     }
   ],
   mode: 'history'

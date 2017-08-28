@@ -14,6 +14,8 @@ export default function (option) {
         resolve(res.data)
       } else if (res.data.status === resCode.INVALID_USER) {
         location.href = '/login'
+      } else if (res.data.status === resCode.NOT_FOUND_DB_CONFIG) {
+        console.log('没找到数据库配置')
       } else {
         reject(res.data)
       }

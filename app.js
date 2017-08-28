@@ -27,15 +27,10 @@ app.use(cookieParser());
 
 app.use(require('./middleware/session'))
 
-app.use(require('node-sass-middleware')({
-  src: path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public'),
-  indentedSyntax: true,
-  sourceMap: true
-}));
 app.use(express.static(path.join(__dirname, 'static')));
 
 app.use(require('./middleware/auth'))
+app.use(require('./middleware/sys'))
 
 app.use('/users', users);
 app.use('/hook', require('./routes/hook'))

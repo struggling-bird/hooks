@@ -37,5 +37,19 @@ router.post('/logout', (req, res) => {
     status: constants.resCode.SUCCESS
   })
 })
-
+/**
+ * 检查系统配置：数据库配置
+ */
+router.post('/sysCheck', (req, res) => {
+  userService.sysCheck().then(() => {
+    res.json({
+      status: constants.resCode.SUCCESS
+    })
+  }).catch(err => {
+    res.json({
+      status: constants.resCode.NOT_FOUND_DB_CONFIG,
+      message: err.toString()
+    })
+  })
+})
 module.exports = router;
