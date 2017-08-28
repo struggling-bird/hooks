@@ -13,6 +13,7 @@
     "debug": "~2.6.0",
     "express": "~4.14.1",
     "morgan": "~1.7.0",
+    "node-uuid": "^1.4.8",
     "serve-favicon": "~2.3.2",
     "ssh2": "^0.5.5"
   },
