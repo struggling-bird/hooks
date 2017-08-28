@@ -37,9 +37,10 @@ const dbUtil = {
    * @returns {Promise}
    */
   query: function (sql) {
-    const connection = mysql.createConnection(config)
-    const context = this
     return new Promise((resolve, reject) => {
+      const connection = mysql.createConnection(config)
+      const context = this
+      
       connection.query(sql, function (error, results) {
         if (error) {
           console.error(sql, error)
