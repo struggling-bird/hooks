@@ -38,13 +38,8 @@ const dbUtil = {
    */
   query: function (sql) {
     return new Promise((resolve, reject) => {
-      try {
-        const connection = mysql.createConnection(config)
-        const context = this
-      } catch (err) {
-        console.error('连接数据库失败', err)
-        reject(err)
-      }
+      const connection = mysql.createConnection(config)
+      const context = this
 
       connection.query(sql, function (error, results) {
         if (error) {
