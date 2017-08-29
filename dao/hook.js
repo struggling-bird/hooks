@@ -50,7 +50,9 @@ const hookDao = {
     return new Promise((resolve, reject) => {
       db.query(sql).then(results => {
         if (results.length === 1) {
-          resolve(results[0])
+          let hook = results[0]
+          hook.command = JSON.parse(decodeURIComponent(hook.command))
+          resolve(hook)
         } else {
           reject()
         }
@@ -70,7 +72,17 @@ const hookDao = {
       join user u on hu.user_id=u.id 
       where u.id = '${user.id}' 
       order by h.create_time desc`
-    return db.query(sql)
+    return new Promise((resolve, reject) => {
+      db.query(sql).then(list => {
+        resolve(list.map(item => {
+          item.command = JSON.parse(decodeURIComponent(item.command))
+          return item
+        }))
+      }).catch(err => {
+        console.error('查询hook列表失败', sql, err)
+        reject(err)
+      })
+    })
   },
   /**
    * 通过命令调用获取hook详情
@@ -87,7 +99,16 @@ const hookDao = {
         where 
       u.token = '${param.token}' and h.id = '${param.hookId}'`
 
-    return db.query(sql)
+    return new Promise((resolve, reject) => {
+      db.query(sql).then(list => {
+        resolve(list.map(item => {
+          item.command = JSON.parse(decodeURIComponent(item.command))
+          return item
+        }))
+      }).catch(err => {
+        reject(err)
+      })
+    })
   },
   /**
    * 删除hook与user关系表数据

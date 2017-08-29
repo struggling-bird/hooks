@@ -33,17 +33,7 @@ const hookService = {
    * @returns {Promise}
    */
   query (user) {
-    return new Promise((resolve, reject) => {
-      hookDao.query(user).then(list => {
-        resolve(list.map(item => {
-          item.command = JSON.parse(decodeURIComponent(item.command))
-          return item
-        }))
-      }).catch(err => {
-        console.error(err)
-        reject(err)
-      })
-    })
+    return hookDao.query(user)
   },
   /**
    * 执行指定hook命令
@@ -61,7 +51,6 @@ const hookService = {
 
           const hook = hooks[0]
 
-          hook.command = JSON.parse(decodeURIComponent(hook.command))
           if (/\bssh\b/.test(hook.command[0])) {
 
             const sshName = hook.command.splice(0, 1)[0].match(/\S*$/)[0]
