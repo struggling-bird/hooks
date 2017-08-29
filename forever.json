@@ -1,0 +1,7 @@
+{
+  "uid": "hooks",
+  "append": true,
+  "watch": true,
+  "script": "bin/www",
+  "args": ["--port", "8080"]
+}
