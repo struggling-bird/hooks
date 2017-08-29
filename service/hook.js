@@ -8,6 +8,7 @@ const hookDao = require('../dao/hook')
 const sshDao = require('../dao/ssh')
 const {exec} = require('child_process')
 const Client = require('ssh2').Client
+const shell = require('../utils/shell')
 
 const hookService = {
   /**
@@ -88,16 +89,11 @@ const hookService = {
               reject(`ssh ${sshName}执行错误`)
             })
 
-
           } else {
-
-            let command = hook.command.join(';')
-            exec(command, (error, stdout, stderr) => {
-              if (error || stderr) {
-                reject(`${command}命令执行失败`)
-              } else {
-                resolve(stdout)
-              }
+            shell.execList(hook.command).then(res => {
+              resolve(res)
+            }).catch(err => {
+              reject(err)
             })
           }
 
