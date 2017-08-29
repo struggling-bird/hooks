@@ -8,7 +8,7 @@ import App from './App'
 import router from './router'
 import modules from './store/main'
 import {initRouter} from './utils/ajax'
-
+import {actions} from './store/constants/main'
 import 'element-ui/lib/theme-default/index.css'
 
 Vue.config.productionTip = false
@@ -21,7 +21,7 @@ initRouter(router)
 const store = new Vuex.Store({
   modules
 })
-
+store.dispatch(actions.user.getUser)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
