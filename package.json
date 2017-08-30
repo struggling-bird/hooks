@@ -5,6 +5,8 @@
   "scripts": {
     "start": "node ./bin/www"
   },
+  "description": "HOOKS is mainly to solve the problem of remote service updates, through the simple configuration in HOOKS, you can call restful API (post) for remote service operation. And HOOKS support SSH, configure SSH, you can log in to the remote machine terminal to execute the shell script.",
+  "keywords": ["hook", "hooks"],
   "dependencies": {
     "body-parser": "~1.16.0",
     "connect-history-api-fallback": "^1.3.0",
