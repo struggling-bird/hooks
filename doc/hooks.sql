@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.17)
 # Database: hooks
-# Generation Time: 2017-08-23 06:40:17 +0000
+# Generation Time: 2017-08-30 08:13:46 +0000
 # ************************************************************
 
 
@@ -28,7 +28,6 @@ DROP TABLE IF EXISTS `hook`;
 CREATE TABLE `hook` (
   `id` varchar(100) NOT NULL,
   `name` varchar(200) NOT NULL,
-  `description` varchar(500) DEFAULT NULL,
   `command` varchar(500) NOT NULL,
   `create_time` bigint(20) DEFAULT NULL,
   `update_time` bigint(20) DEFAULT NULL,
@@ -62,7 +61,6 @@ CREATE TABLE `hook_user` (
 DROP TABLE IF EXISTS `ssh`;
 
 CREATE TABLE `ssh` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` varchar(100) NOT NULL DEFAULT '',
   `name` varchar(100) NOT NULL DEFAULT '',
   `ip` varchar(100) NOT NULL DEFAULT '',
@@ -70,7 +68,7 @@ CREATE TABLE `ssh` (
   `user_name` varchar(100) NOT NULL DEFAULT '',
   `password` varchar(100) DEFAULT '',
   `private_key` varchar(100) DEFAULT '',
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`name`),
   KEY `to_user` (`user_id`),
   CONSTRAINT `to_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -91,6 +89,15 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+
+INSERT INTO `user` (`id`, `name`, `token`, `password`, `email`)
+VALUES
+	('14e92320-87d0-11e7-96a9-47642e4adc80','admin','14e92320-87d0-11e7-96a9-47642e4adc80','admin','');
+
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 
