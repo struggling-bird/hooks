@@ -77,6 +77,7 @@
   import {actions} from '../../store/constants/main'
   import Clipboard from 'clipboard'
   import {ajax} from '../../utils/main'
+  import Vue from 'vue'
 
   export default {
     name: 'main',
@@ -86,7 +87,8 @@
         content: '',
         clipboard: null,
         showDelWarning: false,
-        toDel: null
+        toDel: null,
+        callLoading: {}
       }
     },
     computed: {
@@ -95,13 +97,13 @@
       },
       hookList () {
         return this.$store.state.hook.list
-      },
-      callLoading () {
-        let loading = {}
-        this.$store.state.hook.list.forEach((item) => {
-          loading[item.id] = false
-        })
-        return loading
+      }
+    },
+    watch: {
+      hookList (list) {
+        list.forEach((item) => {
+          Vue.set(this.callLoading, item.id, false)
+        }, this)
       }
     },
     mounted () {
@@ -159,9 +161,9 @@
           url: this.getAddr(row),
           method: 'post'
         }).then(res => {
-          console.log(res.data || res.message)
           this.callLoading[row.id] = false
           this.$message('调用成功')
+          console.log(res.data || res.message)
         }).catch(error => {
           this.callLoading[row.id] = false
           this.$message({
