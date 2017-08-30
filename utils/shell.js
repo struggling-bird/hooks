@@ -4,35 +4,56 @@
  * @author yqdong
  *
  */
-const shell = require('shelljs')
+const exec = require('child_process').exec
 
 const reg = {
   cd: /^cd\s/
 }
 
 const terminal = {
-  exec (command) {
+  /**
+   *
+   * @param command
+   * @param option
+   * @returns {*}
+   */
+  exec (command, option = {
+    cwd: process.cwd()
+  }) {
     if (reg.cd.test(command)) {
-      return this.cd(command.replace(/^cd\s*/, ''))
+      return this.cd(command, option)
     } else {
       return new Promise((resolve, reject) => {
-        shell.exec(command, (code, stdout, stderr) => {
-          if (code === 0) {
-            resolve(stdout)
+        exec(command, {
+          cwd: option.cwd
+        }, (err, stdout, stderr) => {
+          if (err || stderr) {
+            reject(err || stderr)
           } else {
-            reject(stderr)
+            resolve(stdout)
           }
         })
       })
     }
   },
-  execList (list, currentIndex = 0, stdout = '') {
+  /**
+   *
+   * @param list
+   * @param currentIndex
+   * @param stdout
+   * @param option
+   * @returns {Promise}
+   */
+  execList (list, currentIndex = 0, stdout = '', option = {
+    cwd: process.cwd()
+  }) {
     const context = this
     return new Promise((resolve, reject) => {
 
       if (list.length && currentIndex < list.length) {
-        context.exec(list[currentIndex]).then(out => {
-          return context.execList(list, currentIndex + 1, stdout + (out || ''))
+        context.exec(list[currentIndex], option).then(out => {
+          stdout += out || ''
+          return context.execList(list, currentIndex + 1, stdout, option)
         }).then(out => {
           resolve(out)
         }).catch(err => {
@@ -43,17 +64,39 @@ const terminal = {
       }
     })
   },
-  cd (dir) {
+  /**
+   *
+   * @param command
+   * @param option
+   * @returns {Promise}
+   */
+  cd (command, option = {
+    cwd: process.cwd()
+  }) {
     return new Promise((resolve, reject) => {
-      const res = shell.cd(dir)
-
-      if (res.code === 0) {
-        resolve()
-      } else {
-        reject(res.stderr)
-      }
+      exec(`${command};pwd;`, {
+        cwd: option.cwd
+      }, (err, stdout, stderr) => {
+        if (err || stderr) {
+          reject(err || stderr)
+        } else {
+          option.cwd = stdout.replace(/\s/g, '')
+          resolve()
+        }
+      })
     })
   }
 }
 
 module.exports = terminal
+
+terminal.execList([
+  'cd ..',
+  'pwd',
+  'cd ..',
+  'pwd',
+  'cd ..',
+  'pwd'
+]).then(res => {
+  console.log('>>>', res)
+})

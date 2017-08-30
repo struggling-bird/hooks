@@ -43,6 +43,7 @@
             <el-button
               size="small"
               type="primary"
+              :loading="callLoading[scope.row.id]"
               @click="testOrder(scope.row)"
             >
               调用
@@ -94,6 +95,13 @@
       },
       hookList () {
         return this.$store.state.hook.list
+      },
+      callLoading () {
+        let loading = {}
+        this.$store.state.hook.list.forEach((item) => {
+          loading[item.id] = false
+        })
+        return loading
       }
     },
     mounted () {
@@ -146,13 +154,16 @@
         })
       },
       testOrder (row) {
+        this.callLoading[row.id] = true
         ajax({
           url: this.getAddr(row),
           method: 'post'
         }).then(res => {
-          console.log(res)
+          console.log(res.data || res.message)
+          this.callLoading[row.id] = false
           this.$message('调用成功')
         }).catch(error => {
+          this.callLoading[row.id] = false
           this.$message({
             message: '调用失败',
             type: 'error'
