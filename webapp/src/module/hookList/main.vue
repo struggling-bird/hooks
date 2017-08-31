@@ -131,7 +131,7 @@
     },
     methods: {
       getAddr (row) {
-        const addr = `${location.protocol}//${this.currentUser.address}${location.port ? (':' + location.port) : ''}/api/${this.currentUser.token}/${row.id}`
+        const addr = `${location.protocol}//${location.host}/api/${this.currentUser.token}/${row.id}`
         return addr
       },
       handleEdit (row) {
