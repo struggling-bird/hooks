@@ -170,7 +170,7 @@
             message: '调用失败',
             type: 'error'
           })
-          console.error('调用失败', error)
+          console.error('调用失败', error.message)
         })
       }
     }
